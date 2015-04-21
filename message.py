@@ -2,15 +2,16 @@ import random
 
 
 class Contact:
-  def __init__(self, name, telno, email):
+  def __init__(self, name, telno, email, fbname):
     self.name = name
     self.telno = telno
     self.email = email
+    self.fbname = fbname
 
 contacts = [
-  Contact("Test Name", "07414060544", "test@testname.com"), 
-  Contact("Jane Doe", "07416666433", "jane@janedoe.com"),
-  Contact("John Smith", "07489898433", "john@johsmith.com"),
+  Contact("Test Name", "07414060544", "test@testname.com", "testname"), 
+  Contact("Jane Doe", "07416666433", "jane@janedoe.com", "janedoe"),
+  Contact("John Smith", "07489898433", "john@johsmith.com", "johnsmith"),
 ]
 
 
@@ -30,17 +31,50 @@ current_stop = initial_stop
 
 message = "This is my fist Message to XKeyscore. x A 123 :-)"
 
-
 def process_alpha_A(direction, char, char_val):
-  print direction + " " + char + " A "
+  mediums = ["email", "sms", "fbmsg"]
+  medium = mediums[random.randint(0, len(mediums)-1)]
+
   choice = random.randint(0, len(contacts)-1)
   contact = contacts[choice]
   contact_val = 0
-  for c in contact.email:
+  
+  contact_str = contact.email
+  if medium == "email":
+    contact_str = contact.email
+  elif medium == "sms":
+    contact_str = contact.telno
+  else:
+    contact_str = contact.fbname
+  
+  for c in contact_str:
     n = ord(c)
     contact_val = contact_val+n 
   contact_val = contact_val % len(alpha_lower_A)
-  print "the value of Contact's Email is " + str(contact_val) + " and taget is " + str(char_val)
+  
+  if char_val < 10:
+    first_half = True
+  else:
+    first_half = False
+    char_val = char_val % 10
+    
+  contact_val = contact_val % 10
+  
+  if char_val < contact_val:
+    length = char_val + 10 - contact_val
+  else:
+    length = char_val - contact_val
+  
+  output_alpha_A(medium, direction, contact.name, contact_str, first_half, length)
+  
+  
+def output_alpha_A(medium, direction, contact_name, contact_str, first_half, length):
+  medium_friendly = {'email': 'an email', 'sms': 'a text message', 'fbmsg': 'a Facebook message'}[medium]
+  direction1_friendly = "send" if direction == "OUT" else "recieve"
+  direction2_friendly = "to" if direction == "OUT" else "from"
+  time_friendly = "even" if first_half else "odd"
+  
+  print "Please {0} {1} {2} {3} ({4}) on an {5} minute with a word count whose last digit is {6}".format(direction1_friendly, medium_friendly, direction2_friendly, contact_name, contact_str, time_friendly, length)
   
   
 def process_alpha_B(direction, char):
