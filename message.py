@@ -21,7 +21,23 @@ alpha_lower_A = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "l", "m", "n", "o"
 alpha_lower_B = ["j", "k", "q", "v", "x", "z"]
 alpha_upper_A = []
 alpha_upper_B = []
+punct_symb = [".", ",", "?", "/", ":", ";", "'", "@", "#", "~", "=", "+", "-", ")", "(", "&", "^", "%", "!", "|"]
 distance = ["0-10", "10-50", "50-100"]
+
+class TubeStop:
+  def __init__(self, init, name, lat):
+    self.init = init
+    self.name = name
+    self.lat = lat
+    
+stations = [
+  TubeStop("n", "initstop", "123"),
+  TubeStop("y", "Tooting Broadway", "52"  ),
+  TubeStop("n", "Balham", "51"),
+  TubeStop("n", "South Kensington", "51"),
+  TubeStop("n", "Tooting Bec", "51"),
+  TubeStop("n", "Earlsfield", "51"),
+]
 
 class Shop:
   def __init__(self, shop_type, option_A, option_B, option_C):
@@ -41,9 +57,22 @@ for c in alpha_lower_A:
   
 for c in alpha_lower_B:
   alpha_upper_B.append(c.upper())
-  
-initial_stop = "Tooting Broadway"
-current_stop = initial_stop 
+
+global current_stop
+current_stop = stations[0]
+
+if current_stop == stations[0]:
+  for s in stations:
+    if s.init == "y":  
+      current_stop = s
+      break
+    else:
+     print "No current tube stop set"
+
+ 
+initial_stop = current_stop 
+
+print "current stop is " + initial_stop.name 
 
 message = "This is my fist Message to XKeyscore. x A 123 :-)"
 
@@ -199,6 +228,80 @@ def output_number(medium, current_distance, amount, shop_out):
 
   
   print "----------------------------------"
+
+destination_station = stations[1]
+def process_punct_symb(char, char_val): 
+  global current_stop
+  print "i am puntuation " + char
+  print  len(punct_symb)
+  
+  mediums = ["tube", "phone"]
+  medium = mediums[random.randint(0, len(mediums)-1)]
+
+  if char_val < 10:
+    first_half = True
+    direction = "OUT"
+  else:
+    first_half = False
+    char_val = char_val % 10
+    direction = "IN"
+
+  choice = random.randint(0, len(stations)-1)
+  destination_station = stations[choice]
+  station_val = stations[choice].lat
+    
+  choice = random.randint(0, len(contacts)-1)
+  contact = contacts[choice]
+  contact_val = 0
+  contact_str = contact.telno
+  
+  duration = 0
+  min_past = 0
+  
+  if medium =="tube":
+    print "tube"
+    station_val = int(station_val) - int(current_stop.lat)
+    station_val = station_val % 10
+    if char_val < station_val:
+      min_past = char_val + 10 - station_val
+  
+  if medium =="phone":
+    for c in contact_str:
+      n = ord(c)
+      contact_val = contact_val+n 
+    contact_val = contact_val % len(punct_symb)
+    
+    contact_val = contact_val % 10
+  
+    if char_val < contact_val:
+      duration = char_val + 10 - contact_val
+    else:
+      duration = char_val - contact_val
+   
+  output_punct_symb(medium, direction, contact.name, contact_str, first_half, duration, destination_station, min_past, current_stop)
+
+  
+  
+def output_punct_symb(medium, direction, contact_name, contact_str, first_half, length, destination_station, min_past, current_stop):
+  
+  medium_friendly = {'tube': 'tube', 'phone': 'phone call'}[medium]
+  direction1_friendly = "make a" if direction == "OUT" else "recieve"
+  direction2_friendly = "to" if direction == "OUT" else "from"
+  direction1_friendlyB = "make a" if direction == "IN" else "recieve"
+  direction2_friendlyB = "to" if direction == "IN" else "from"
+  time_friendly = "even" if first_half else "odd"
+  user_details_friendly = " (" + user_details[1] + ")"
+
+  if medium == "phone":
+    print "Please {0} {1} {2} {3} ({4}) on an {5} minute with a duration in minutes that has last the digit {6}.".format(direction1_friendly, medium_friendly, direction2_friendly, contact_name, contact_str, time_friendly, length)
+
+    if direction == "IN":
+      print "Instruction for {0}: Please {1} {2} {3} {4}{5} on an {6} minute with a duration in miuites that has the last digit {7}." .format(contact_name, direction1_friendlyB, medium_friendly, direction2_friendlyB, user_details[0], user_details_friendly, time_friendly, length)
+    
+  else:
+    print "Please take the {0} from {1} to {2} at {3} minutes past any ten minute mark." .format(medium_friendly, current_stop.name, destination_station.name, min_past)
+    
+  current_stop = destination_station
   
 
 for i in message:
@@ -232,7 +335,12 @@ for i in message:
     char_val = alpha_upper_B.index(i)
     process_alpha_B("IN", i, char_val)
       
+  elif i in punct_symb:
+    char_val = punct_symb.index(i)
+    process_punct_symb(i, char_val)
+    
   else:
-    print "boo " + i
+    print "Do a one word google search." + i
+    
     
     
