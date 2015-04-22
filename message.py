@@ -14,6 +14,8 @@ contacts = [
   Contact("John Smith", "07489898433", "john@johsmith.com", "johnsmith"),
 ]
 
+user_details = ["My Name", "09090909090", "test@myname.com", "mytestname1"]
+print "my name is "+ user_details[0]
 
 alpha_lower_A = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "l", "m", "n", "o", "p", "r", "s", "t", "u", "w", "y"]
 alpha_lower_B = ["j", "k", "q", "v", "x", "z"]
@@ -66,15 +68,28 @@ def process_alpha_A(direction, char, char_val):
     length = char_val - contact_val
   
   output_alpha_A(medium, direction, contact.name, contact_str, first_half, length)
+
   
   
 def output_alpha_A(medium, direction, contact_name, contact_str, first_half, length):
   medium_friendly = {'email': 'an email', 'sms': 'a text message', 'fbmsg': 'a Facebook message'}[medium]
   direction1_friendly = "send" if direction == "OUT" else "recieve"
   direction2_friendly = "to" if direction == "OUT" else "from"
+  direction1_friendlyB = "send" if direction == "IN" else "recieve"
+  direction2_friendlyB = "to" if direction == "IN" else "from"
   time_friendly = "even" if first_half else "odd"
+
+  if medium == 'sms': 
+    user_details_friendly = user_details[1] 
+  elif medium == 'email':
+    user_details_friendly = user_details[2] 
+  else: 
+    user_details_friendly = user_details[3]
   
   print "Please {0} {1} {2} {3} ({4}) on an {5} minute with a word count whose last digit is {6}".format(direction1_friendly, medium_friendly, direction2_friendly, contact_name, contact_str, time_friendly, length)
+
+  if direction == "IN":
+    print "Instruction for {0}: Please {1} {2} {3} {4} ({5}) on an {6} minute with a word count whose last digit is {7}" .format(contact_name, direction1_friendlyB, medium_friendly, direction2_friendlyB, user_details[0], user_details_friendly, time_friendly, length)
   
   
 def process_alpha_B(direction, char):
