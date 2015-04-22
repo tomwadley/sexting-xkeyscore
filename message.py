@@ -58,7 +58,6 @@ for c in alpha_lower_A:
 for c in alpha_lower_B:
   alpha_upper_B.append(c.upper())
 
-global current_stop
 current_stop = stations[0]
 
 if current_stop == stations[0]:
@@ -221,17 +220,17 @@ def process_number(char, char_val):
   output_number(medium, current_distance, amount, shop_out)
   
 def output_number(medium, current_distance, amount, shop_out):
+  global current_stop
+
   medium_friendly = {'card': 'card', 'contactless': 'contactless card'}[medium]
-
   
-  print "Please make a purchase at {0} with your {1} {2} metres from {3} tube stop. The last digit of the amount in pence must be {4}.".format(shop_out, medium_friendly, current_distance, current_stop, amount)
-
+  print "Please make a purchase at {0} with your {1} {2} metres from {3} tube stop. The last digit of the amount in pence must be {4}.".format(shop_out, medium_friendly, current_distance, current_stop.name, amount)
   
   print "----------------------------------"
 
-destination_station = stations[1]
-def process_punct_symb(char, char_val): 
+def process_punct_symb(char, char_val):
   global current_stop
+
   print "i am puntuation " + char
   print  len(punct_symb)
   
@@ -278,11 +277,12 @@ def process_punct_symb(char, char_val):
     else:
       duration = char_val - contact_val
    
-  output_punct_symb(medium, direction, contact.name, contact_str, first_half, duration, destination_station, min_past, current_stop)
+  output_punct_symb(medium, direction, contact.name, contact_str, first_half, duration, destination_station, min_past)
 
   
   
-def output_punct_symb(medium, direction, contact_name, contact_str, first_half, length, destination_station, min_past, current_stop):
+def output_punct_symb(medium, direction, contact_name, contact_str, first_half, length, destination_station, min_past):
+  global current_stop
   
   medium_friendly = {'tube': 'tube', 'phone': 'phone call'}[medium]
   direction1_friendly = "make a" if direction == "OUT" else "recieve"
