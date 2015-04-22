@@ -21,6 +21,20 @@ alpha_lower_A = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "l", "m", "n", "o"
 alpha_lower_B = ["j", "k", "q", "v", "x", "z"]
 alpha_upper_A = []
 alpha_upper_B = []
+distance = ["0-10", "10-50", "50-100"]
+
+class Shop:
+  def __init__(self, shop_type, option_A, option_B, option_C):
+    self.shop_type = shop_type
+    self.option_A = option_A
+    self.option_B = option_B
+    self.option_C = option_C
+    
+shops = [
+  Shop("Grocery", "Tesco", "Sainbury's", "Morrison"),
+  Shop("Cafe","Costa", "Starbuck", "Nero"),
+  Shop("Independent", "an independent grocery store", "an independent coffe shop", "an independent pub")
+]
  
 for c in alpha_lower_A:
   alpha_upper_A.append(c.upper())
@@ -28,7 +42,7 @@ for c in alpha_lower_A:
 for c in alpha_lower_B:
   alpha_upper_B.append(c.upper())
   
-initial_stop = "Tooting"
+initial_stop = "Tooting Broadway"
 current_stop = initial_stop 
 
 message = "This is my fist Message to XKeyscore. x A 123 :-)"
@@ -86,10 +100,10 @@ def output_alpha_A(medium, direction, contact_name, contact_str, first_half, len
   else: 
     user_details_friendly = user_details[3]
   
-  print "Please {0} {1} {2} {3} ({4}) on an {5} minute with a word count whose last digit is {6}".format(direction1_friendly, medium_friendly, direction2_friendly, contact_name, contact_str, time_friendly, length)
+  print "Please {0} {1} {2} {3} ({4}) on an {5} minute with a word count whose last digit is {6}.".format(direction1_friendly, medium_friendly, direction2_friendly, contact_name, contact_str, time_friendly, length)
 
   if direction == "IN":
-    print "Instruction for {0}: Please {1} {2} {3} {4} ({5}) on an {6} minute with a word count whose last digit is {7}" .format(contact_name, direction1_friendlyB, medium_friendly, direction2_friendlyB, user_details[0], user_details_friendly, time_friendly, length)
+    print "Instruction for {0}: Please {1} {2} {3} {4} ({5}) on an {6} minute with a word count whose last digit is {7}." .format(contact_name, direction1_friendlyB, medium_friendly, direction2_friendlyB, user_details[0], user_details_friendly, time_friendly, length)
   
   print "----------------------------------"
   
@@ -141,12 +155,51 @@ def output_alpha_B(medium, direction, contact_name, contact_str, length):
     user_details_friendly = " (" + user_details[2] + ")"
 
   
-  print "Please {0} {1} {2} {3}{4} where the last digit of the {5} is {6}".format(direction1_friendly, medium_friendly, direction2_friendly, contact_name, contact_str, length_type, length)
+  print "Please {0} {1} {2} {3}{4} where the last digit of the {5} is {6}.".format(direction1_friendly, medium_friendly, direction2_friendly, contact_name, contact_str, length_type, length)
 
   if direction == "IN":
-    print "Instruction for {0}: Please {1} {2} {3} {4}{5}where the last digit of the {6} is {7}" .format(contact_name, direction1_friendlyB, medium_friendly, direction2_friendlyB, user_details[0], user_details_friendly, length_type, length)
+    print "Instruction for {0}: Please {1} {2} {3} {4}{5}where the last digit of the {6} is {7}." .format(contact_name, direction1_friendlyB, medium_friendly, direction2_friendlyB, user_details[0], user_details_friendly, length_type, length)
   
   print "----------------------------------"
+  
+  
+def process_number(char, char_val):
+  mediums = ["card", "contactless"]
+  medium = mediums[random.randint(0, len(mediums)-1)]
+
+  choice = random.randint(0, len(distance)-1)
+  current_distance = distance[choice]
+  distance_val = choice
+  
+  choice2 = random.randint(0, len(shops)-1)
+  shop_str = shops[choice2].shop_type
+  shop_out = shops[choice2].option_A + "/" + shops[choice2].option_B + "/" + shops[choice2].option_C
+  shop_val = 1
+  
+  for c in shop_str:
+    n = ord(c)
+    shop_val = shop_val+n 
+  shop_val = shop_val % 10
+
+  
+  combo_val = (char_val + shop_val) % 10
+  
+  if char_val < combo_val:
+    amount = char_val + 10 - combo_val
+  else:
+    amount = char_val - combo_val
+  
+  output_number(medium, current_distance, amount, shop_out)
+  
+def output_number(medium, current_distance, amount, shop_out):
+  medium_friendly = {'card': 'card', 'contactless': 'contactless card'}[medium]
+
+  
+  print "Please make a purchase at {0} with your {1} {2} metres from {3} tube stop. The last digit of the amount in pence must be {4}.".format(shop_out, medium_friendly, current_distance, current_stop, amount)
+
+  
+  print "----------------------------------"
+  
 
 for i in message:
   
@@ -156,6 +209,12 @@ for i in message:
       print "Tweet."
     else:
       print "Post a Facebook status update."
+    print "----------------------------------"
+  
+  elif str.isdigit(i):
+    n = int(i)
+    char_val = n
+    process_number(i, char_val)
   
   elif i in alpha_lower_A:
     char_val = alpha_lower_A.index(i)
