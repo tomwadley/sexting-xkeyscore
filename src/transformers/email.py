@@ -14,7 +14,7 @@ class Email(Transformer):
     def num_required_contacts(self):
         return 2
 
-    def transform(self, character, contacts):
+    def transform(self, character, contacts, clock):
         is_upper_case = character in Email.__upper_characters
 
         sorted_contacts = sorted(contacts, cmp = self.__cmp_contact_by('email'), reverse = is_upper_case)
@@ -24,7 +24,7 @@ class Email(Transformer):
         char_val = Email.__characters.index(character.lower())
         length, first_half = self.__map_to_halved_range(contact_val, char_val, len(Email.__characters), 10)
 
-        return 'Character: {0}, Email From: {1}, To: {2}, Even minute: {3}, Length: {4}'.format(character, contact_from.get('name'), contact_to.get('name'), first_half, length)
+        return 'Character: {0}, At: {1}, Email From: {2}, To: {3}, Even minute: {4}, Length: {5}'.format(character, clock.block_range_str(), contact_from.get('name'), contact_to.get('name'), first_half, length)
 
     def __cmp_contact_by(self, prop):
         return lambda x, y: cmp(self.__encode_str_to_int(x.get(prop)), self.__encode_str_to_int(y.get(prop)))

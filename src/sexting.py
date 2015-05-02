@@ -3,13 +3,15 @@ from random import shuffle
 from transformers import *
 from sexting.transformer import Transformer
 from sexting.contactloader import ContactLoader
+from sexting.clock import Clock
 
 class Sexting():
 
-    def __init__(self, message):
+    def __init__(self, message, start_hour):
         self.message = message
         self.transformers = self.__load_transformers()
         self.contacts = ContactLoader().load()
+        self.clock = Clock(int(start_hour))
         self.__process()
 
     def __load_transformers(self):
@@ -28,7 +30,9 @@ class Sexting():
 
             transformer, contacts = self.__choose_transformer_and_contacts(transformersWithContacts)
 
-            instruction = transformer.transform(character, contacts)
+            instruction = transformer.transform(character, contacts, self.clock)
+
+            self.clock = self.clock.next_block()
 
             print instruction
 
@@ -57,13 +61,14 @@ class Sexting():
 
 
 def main():
-    if len(sys.argv) <= 1:
-        print 'Usage: {0} MESSAGE'.format(sys.argv[0])
+    if len(sys.argv) <= 2:
+        print 'Usage: {0} MESSAGE START_HOUR'.format(sys.argv[0])
         sys.exit(1)
 
     message = sys.argv[1]
+    start_hour = sys.argv[2]
 
-    Sexting(message)
+    Sexting(message, start_hour)
 
 if __name__ == '__main__':
     main()

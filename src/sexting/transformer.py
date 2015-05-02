@@ -10,5 +10,5 @@ class Transformer(object):
     def num_required_contacts(self):
         0
 
-    def transform(self, character, contacts):
+    def transform(self, character, contacts, clock):
         return 'Character: {0}'.format(character)
