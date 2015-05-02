@@ -1,9 +1,9 @@
 import sys
 from random import shuffle
 from transformers import *
-from sexting.transformer import Transformer
-from sexting.contactloader import ContactLoader
-from sexting.clock import Clock
+from lib.transformer import Transformer
+from lib.contactloader import ContactLoader
+from lib.clock import Clock
 
 class Sexting():
 
@@ -12,20 +12,13 @@ class Sexting():
         self.transformers = self.__load_transformers()
         self.contacts = ContactLoader().load()
         self.clock = Clock(int(start_hour))
-        self.__process()
 
-    def __load_transformers(self):
-        return [
-            Email(),
-            SMS()
-        ]
-
-    def __process(self):
+    def process(self):
         for character in self.message:
             transformersWithContacts = list(self.__possible_transformers_and_contacts(character))
 
             if not transformersWithContacts:
-                print "NO TRANSFORMER FOR '{0}'".format(character)
+                yield "NO TRANSFORMER FOR '{0}'".format(character)
                 continue
 
             transformer, contacts = self.__choose_transformer_and_contacts(transformersWithContacts)
@@ -34,7 +27,13 @@ class Sexting():
 
             self.clock = self.clock.next_block()
 
-            print instruction
+            yield instruction
+
+    def __load_transformers(self):
+        return [
+            Email(),
+            SMS()
+        ]
 
     def __possible_transformers_and_contacts(self, character):
         for t in self.transformers:
@@ -68,7 +67,8 @@ def main():
     message = sys.argv[1]
     start_hour = sys.argv[2]
 
-    Sexting(message, start_hour)
+    for i in Sexting(message, start_hour).process():
+        print i
 
 if __name__ == '__main__':
     main()

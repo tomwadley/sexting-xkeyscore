@@ -1,4 +1,4 @@
-from sexting.transformer import Transformer
+from ..lib.transformer import Transformer
 
 class Email(Transformer):
 

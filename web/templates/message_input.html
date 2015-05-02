@@ -1,0 +1,13 @@
+{% extends "__master.html" %}
+{% block head %}
+    <script src="{{ url_for('static', filename='sexting_input.js') }}"></script>
+{% endblock %}
+{% block content %}
+
+<div id="display"></div>
+
+<form action="transform" method="POST">
+  <input type="hidden" name="message" />
+</form>
+
+{% endblock %}
