@@ -36,13 +36,20 @@ function registerChar(character) {
 
 function processEnter() {
   console.log("ENTER pressed!");
-  $('form').submit();
+  if (message.length > 0) {
+    console.log("Posting form...");
+    $.post('print', $('form').serialize());
+    message = "";
+    updateDom();
+  }
 }
 
 function processBackspace() {
   console.log("BACKSPACE pressed!");
-  message = message.slice(0, message.length - 1);
-  updateDom();
+  if (message.length > 0) {
+    message = message.slice(0, message.length - 1);
+    updateDom();
+  }
 }
 
 function currentModKey() {
