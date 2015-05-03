@@ -4,10 +4,12 @@
 {% endblock %}
 {% block content %}
 
-<div id="display"></div>
+<div id="messageInput">
+  <div id="display"></div>
+</div>
 
 <form action="transform" method="POST">
-  <input type="hidden" name="message" />
+  <input type="hidden" name="message" id="message" />
 </form>
 
 {% endblock %}

@@ -17,21 +17,32 @@ mappings = {
 
 keyDown = {}
 
+message = "";
+
 $.each(allKeys, function(i, key) {
   keyDown[key] = false;
 });
 
+function updateDom() {
+  $('#display').text(message);
+  $('#message').val(message);
+}
+
 function registerChar(character) {
   console.log(character);
-  $('#display').append(character);
+  message += character;
+  updateDom();
 }
 
 function processEnter() {
   console.log("ENTER pressed!");
+  $('form').submit();
 }
 
 function processBackspace() {
   console.log("BACKSPACE pressed!");
+  message = message.slice(0, message.length - 1);
+  updateDom();
 }
 
 function currentModKey() {
@@ -83,4 +94,8 @@ $(document).keydown(function(e) {
       console.log('UP: ' + key);
     }
   });
+});
+
+$(function() {
+  updateDom();
 });
