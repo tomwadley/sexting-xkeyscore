@@ -4,3 +4,11 @@ body { margin: 0; padding: 0 }
 #messageInput { background-color: black; position: absolute; height: 100%; width: 100%; display: flex; align-items: center; }
 
 #display { color: white; font-size: 125px; font-family: sans-serif; text-align: center; width: 100%; }
+
+@media all {
+  .page-break { display: none; }
+}
+
+@media print {
+  .page-break { display: block; page-break-before: always; }
+}

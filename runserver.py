@@ -1,4 +1,4 @@
 #!/usr/bin/env python
 
 from web import app
-app.run(debug=True)
+app.run(threaded=True, debug=True)
