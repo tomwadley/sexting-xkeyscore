@@ -4,6 +4,8 @@ from fbmsg import FBMsg
 from voip import Voip
 from bankwire import BankWire
 from paypal import Paypal
+from debitcard import DebitCard
+from contactlesscard import ContactlessCard
 
 def all_transformers():
     return [
@@ -13,4 +15,6 @@ def all_transformers():
         Voip(),
         BankWire(),
         Paypal(),
+        DebitCard(),
+        ContactlessCard(),
     ]

@@ -7,6 +7,8 @@ __rare2_characters = ["q", "v"]
 __rare2_upper_characters = map(lambda c: c.upper(), __rare2_characters)
 __rare3_characters = ["x", "z"]
 __rare3_upper_characters = map(lambda c: c.upper(), __rare3_characters)
+__digit1_characters = ["0", "2", "4", "6", "8"]
+__digit2_characters = ["1", "3", "5", "7", "9"]
 
 def is_character_common(character):
     return character in __common_characters or character in __common_upper_characters
@@ -19,6 +21,12 @@ def is_character_rare2(character):
 
 def is_character_rare3(character):
     return character in __rare3_characters or character in __rare3_upper_characters
+
+def is_character_digit1(character):
+    return character in __digit1_characters
+
+def is_character_digit2(character):
+    return character in __digit2_characters
 
 def common_character_transform(character, contacts, contact_field):
     contact_from, contact_to = __get_from_and_to(character, contacts, contact_field)
@@ -36,6 +44,12 @@ def rare2_character_transform(character, contacts, contact_field):
 
 def rare3_character_transform(character, contacts, contact_field):
     return __rare_character_transform(character, __rare3_characters, contacts, contact_field)
+
+def digit1_character_transform(character):
+    return __digit_character_transform(character, __digit1_characters)
+
+def digit2_character_transform(character):
+    return __digit_character_transform(character, __digit2_characters)
 
 def __rare_character_transform(character, character_set, contacts, contact_field):
     contact_from, contact_to = __get_from_and_to(character, contacts, contact_field)
@@ -60,6 +74,21 @@ def __map_to_halved_range(from_val, to_val, original_limit, reduced_limit):
     reduced_result = (reduced_limit / half_limit) * result
 
     return (reduced_result, first_half)
+
+def __digit_character_transform(character, character_set):
+    index = character_set.index(character)
+
+    supermarket = True if index < 3 else False
+    if supermarket:
+        begin_range = index * 33
+        end_range = begin_range + 32
+        if index == 2:
+            end_range += 1
+    else:
+        begin_range = (index - 3) * 50
+        end_range = begin_range + 49
+
+    return supermarket, begin_range, end_range
 
 def __get_from_and_to(character, contacts, contact_field):
     is_upper_case = character.isupper()
