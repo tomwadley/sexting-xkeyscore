@@ -1,6 +1,6 @@
 import sys
 from random import shuffle
-from transformers import *
+from transformers import all_transformers
 from lib.transformer import Transformer
 from lib.contactloader import ContactLoader
 from lib.clock import Clock
@@ -9,7 +9,7 @@ class Sexting():
 
     def __init__(self, message, start_hour):
         self.message = message
-        self.transformers = self.__load_transformers()
+        self.transformers = all_transformers()
         self.contacts = ContactLoader().load()
         self.clock = Clock(int(start_hour))
 
@@ -28,12 +28,6 @@ class Sexting():
             self.clock = self.clock.next_block()
 
             yield instruction
-
-    def __load_transformers(self):
-        return [
-            Email(),
-            SMS()
-        ]
 
     def __possible_transformers_and_contacts(self, character):
         for t in self.transformers:

@@ -4,6 +4,6 @@ class ContactLoader:
 
     def load(self):
         return [
-            Contact({'name': 'testname', 'email': 'some@email.com'}),
-            Contact({'name': 'foobar', 'email': 'foo@bar.com'}),
+            Contact({'name': 'testname', 'email': 'some@email.com', 'phone': '1234 5678', 'fbname': 'test', 'voipname': 'testname123'}),
+            Contact({'name': 'foobar', 'email': 'foo@bar.com', 'phone': '9876 5432', 'fbname': 'foo', 'voipname': 'foobar456'}),
         ]
