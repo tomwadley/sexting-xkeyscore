@@ -34,7 +34,7 @@ class Sexting():
             if not t.can_handle_character(character):
                 continue
 
-            viableContacts = filter(lambda c: t.can_handle_contact(c, self.clock), self.contacts)
+            viableContacts = filter(lambda c: not c.is_busy(self.clock) and t.can_handle_contact(c, self.clock), self.contacts)
 
             if len(viableContacts) < t.num_required_contacts():
                 continue

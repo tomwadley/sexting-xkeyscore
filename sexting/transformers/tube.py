@@ -14,13 +14,7 @@ class Tube(Transformer):
         return character in Tube.__punctuation_characters
 
     def can_handle_contact(self, contact, clock):
-        if not contact.has('tubestation'):
-            return False
-        if contact.has_state('lasttube'):
-            last_clock, _ = contact.get_state('lasttube')
-            if last_clock.jump_forward(12) > clock:
-                return False
-        return True
+        return contact.has('tubestation')
 
     def num_required_contacts(self):
         return 1
@@ -29,13 +23,14 @@ class Tube(Transformer):
         contact = contacts[0]
         station = contact.get('tubestation')
         if contact.has_state('lasttube'):
-            _, station = contact.get_state('lasttube')
+            station = contact.get_state('lasttube')
 
         stations = self.__nearest_stations(station, len(Tube.__punctuation_characters))
         index = Tube.__punctuation_characters.index(character)
         destination = stations[index]
 
-        contact.set_state('lasttube', (clock, destination))
+        contact.set_state('lasttube', destination)
+        contact.set_busy_func('tube', lambda clk: clock.jump_forward(12) > clk)
 
         return 'Character: {0}, At: {1}, Begin tube journey by: {2}, From: {3}, To: {4}'.format(character, clock.block_range_str(), contact.get('name'), station, destination)
 
