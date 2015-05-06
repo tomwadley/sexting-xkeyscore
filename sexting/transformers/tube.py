@@ -1,7 +1,6 @@
 from ..lib.transformer import Transformer
 import csv, os
 from LatLon import LatLon
-import utils
 
 # Tube station data from http://commons.wikimedia.org/wiki/London_Underground_geographic_maps/CSV
 class Tube(Transformer):
@@ -14,8 +13,14 @@ class Tube(Transformer):
     def can_handle_character(self, character):
         return character in Tube.__punctuation_characters
 
-    def can_handle_contact(self, contact):
-        return contact.has('tubestation')
+    def can_handle_contact(self, contact, clock):
+        if not contact.has('tubestation'):
+            return False
+        if contact.has_state('lasttube'):
+            last_clock, _ = contact.get_state('lasttube')
+            if last_clock.jump_forward(12) > clock:
+                return False
+        return True
 
     def num_required_contacts(self):
         return 1
@@ -23,9 +28,14 @@ class Tube(Transformer):
     def transform(self, character, contacts, clock):
         contact = contacts[0]
         station = contact.get('tubestation')
+        if contact.has_state('lasttube'):
+            _, station = contact.get_state('lasttube')
+
         stations = self.__nearest_stations(station, len(Tube.__punctuation_characters))
         index = Tube.__punctuation_characters.index(character)
         destination = stations[index]
+
+        contact.set_state('lasttube', (clock, destination))
 
         return 'Character: {0}, At: {1}, Begin tube journey by: {2}, From: {3}, To: {4}'.format(character, clock.block_range_str(), contact.get('name'), station, destination)
 

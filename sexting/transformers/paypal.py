@@ -6,7 +6,7 @@ class Paypal(Transformer):
     def can_handle_character(self, character):
         return utils.is_character_rare3(character)
 
-    def can_handle_contact(self, contact):
+    def can_handle_contact(self, contact, clock):
         return contact.has('email')
 
     def num_required_contacts(self):

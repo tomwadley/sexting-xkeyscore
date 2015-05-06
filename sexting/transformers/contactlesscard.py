@@ -6,7 +6,7 @@ class ContactlessCard(Transformer):
     def can_handle_character(self, character):
         return utils.is_character_digit2(character)
 
-    def can_handle_contact(self, contact):
+    def can_handle_contact(self, contact, clock):
         return (contact.has('contactless') and contact.get('contactless') == True)
 
     def num_required_contacts(self):

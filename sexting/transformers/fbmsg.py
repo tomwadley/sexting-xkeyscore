@@ -6,7 +6,7 @@ class FBMsg(Transformer):
     def can_handle_character(self, character):
         return utils.is_character_common(character)
 
-    def can_handle_contact(self, contact):
+    def can_handle_contact(self, contact, clock):
         return contact.has('fbname')
 
     def num_required_contacts(self):

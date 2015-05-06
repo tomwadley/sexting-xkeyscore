@@ -1,25 +1,31 @@
+from functools import total_ordering
 
+@total_ordering
 class Clock:
 
-    def __init__(self, hour, block = 0):
-        self.__hour = hour
-        self.__block = block
+    def __init__(self, hour, block = 0, day = 0):
+        self._hour = hour
+        self._block = block
+        self._day = day
 
     def hour(self):
-        return self.__hour
+        return self._hour
 
     def minute(self):
-        return self.__block * 5
+        return self._block * 5
 
     def next_block(self):
-        if self.__block == 11:
+        if self._block == 11:
 
-            if self.__hour == 23:
-                return Clock(0, 0)
+            if self._hour == 23:
+                return Clock(0, 0, self._day + 1)
             
-            return Clock(self.__hour + 1, 0)
+            return Clock(self._hour + 1, 0, self._day)
 
-        return Clock(self.__hour, self.__block + 1)
+        return Clock(self._hour, self._block + 1, self._day)
+
+    def jump_forward(self, blocks):
+        return reduce(lambda c, _: c.next_block(), range(blocks), self)
 
     def str(self):
         return "{:02}:{:02}".format(self.hour(), self.minute())
@@ -29,4 +35,14 @@ class Clock:
 
     def __str__(self):
         return self.str()
+
+    def __eq__(self, other):
+        return (self._hour == other._hour) and (self._block == other._block) and (self._day == other._day)
+
+    def __lt__(self, other):
+        if not self._day == other._day:
+            return self._day < other._day
+        if not self._hour == other._hour:
+            return self._hour < other._hour
+        return self._block < other._block
 

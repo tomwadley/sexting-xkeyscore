@@ -17,24 +17,24 @@ class Sexting():
         for character in self.message:
             transformersWithContacts = list(self.__possible_transformers_and_contacts(character))
 
-            if not transformersWithContacts:
+            if transformersWithContacts:
+
+                transformer, contacts = self.__choose_transformer_and_contacts(transformersWithContacts)
+
+                instruction = transformer.transform(character, contacts, self.clock)
+                yield instruction
+
+            else:
                 yield "NO TRANSFORMER FOR '{0}'".format(character)
-                continue
-
-            transformer, contacts = self.__choose_transformer_and_contacts(transformersWithContacts)
-
-            instruction = transformer.transform(character, contacts, self.clock)
 
             self.clock = self.clock.next_block()
-
-            yield instruction
 
     def __possible_transformers_and_contacts(self, character):
         for t in self.transformers:
             if not t.can_handle_character(character):
                 continue
 
-            viableContacts = filter(lambda c: t.can_handle_contact(c), self.contacts)
+            viableContacts = filter(lambda c: t.can_handle_contact(c, self.clock), self.contacts)
 
             if len(viableContacts) < t.num_required_contacts():
                 continue

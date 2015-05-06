@@ -4,7 +4,7 @@ class Transformer(object):
     def can_handle_character(self, character):
         False
 
-    def can_handle_contact(self, contact):
+    def can_handle_contact(self, contact, clock):
         False
 
     def num_required_contacts(self):
