@@ -6,6 +6,7 @@ from bankwire import BankWire
 from paypal import Paypal
 from debitcard import DebitCard
 from contactlesscard import ContactlessCard
+from tube import Tube
 
 def all_transformers():
     return [
@@ -17,4 +18,5 @@ def all_transformers():
         Paypal(),
         DebitCard(),
         ContactlessCard(),
+        Tube(),
     ]
