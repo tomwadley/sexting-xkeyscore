@@ -16,16 +16,19 @@ class Sexting():
     def process(self):
         for character in self.message:
             transformersWithContacts = list(self.__possible_transformers_and_contacts(character))
+            while (not transformersWithContacts):
+                yield "Nothing to do at {0}".format(self.clock.block_range_str())
+                self.clock = self.clock.next_block()
 
-            if transformersWithContacts:
+                if (self.clock.day() > 10):
+                    raise Exception("There doesn't seem to be anyone who can process {0}".format(character))
 
-                transformer, contacts = self.__choose_transformer_and_contacts(transformersWithContacts)
+                transformersWithContacts = list(self.__possible_transformers_and_contacts(character))
 
-                instruction = transformer.transform(character, contacts, self.clock)
-                yield instruction
+            transformer, contacts = self.__choose_transformer_and_contacts(transformersWithContacts)
 
-            else:
-                yield "NO TRANSFORMER FOR '{0}'".format(character)
+            instruction = transformer.transform(character, contacts, self.clock)
+            yield instruction
 
             self.clock = self.clock.next_block()
 

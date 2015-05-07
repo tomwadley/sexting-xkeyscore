@@ -14,6 +14,9 @@ class Clock:
     def minute(self):
         return self._block * 5
 
+    def day(self):
+        return self._day
+
     def next_block(self):
         if self._block == 11:
 
