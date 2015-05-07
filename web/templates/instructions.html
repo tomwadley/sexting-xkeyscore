@@ -1,14 +1,28 @@
 {% extends "__master.html" %}
+{% block head %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='sexting_transform.css') }}">
+
+{% endblock %}
 {% block content %}
 
-<ul>
-{% for i in instructions %}
-  <li>{{ i }}</li>
-{% endfor %}
-</ul>
+<div id="instructions">
 
-<div class="page-break"></div>
+  {% for (contact, instructions) in contacts_instructions %}
+  <div>
 
-<p>This is a second page</p>
+    <h1>Instructions for {{ contact.name() }}</h1>
+
+    <ul>
+    {% for i in instructions %}
+      <li>{{ i }}</li>
+    {% endfor %}
+    </ul>
+
+    <div class="page-break"></div>
+  </div>
+  {% endfor %}
+
+</div>
 
 {% endblock %}

@@ -1,6 +1,12 @@
 {% extends "__master.html" %}
 {% block head %}
-    <script src="{{ url_for('static', filename='sexting_input.js') }}"></script>
+
+<link rel="stylesheet" href="{{ url_for('static', filename='sexting_input.css') }}">
+
+<script src="{{ url_for('bower.static', filename='jquery/dist/jquery.js') }}"></script>
+
+<script src="{{ url_for('static', filename='sexting_input.js') }}"></script>
+
 {% endblock %}
 {% block content %}
 

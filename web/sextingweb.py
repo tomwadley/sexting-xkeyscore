@@ -15,7 +15,7 @@ def transform_and_print():
     url = url_for('transform', _external=True, message=message)
     output_path = __get_output_path()
     print "Generating pdf ({0}) from {1}".format(output_path, url)
-    pdfkit.from_url(url, output_path)
+    __generate_pdf(url, output_path)
     subprocess.Popen(['lpr', output_path])
     return redirect(url_for('message_input'))
 
@@ -30,13 +30,32 @@ def __get_output_path():
             raise
     return os.path.join(output_dir, str(uuid.uuid4()) + '.pdf')
 
+def __generate_pdf(url, output_path):
+    options = {
+        'page-size': 'A4',
+        'margin-top': '0.75in',
+        'margin-right': '0.75in',
+        'margin-bottom': '0.75in',
+        'margin-left': '0.75in',
+        'encoding': "UTF-8",
+        'minimum-font-size': '30'
+    }
+    pdfkit.from_url(url, output_path, options)
+
 @app.route('/transform')
 def transform():
     message = request.args.get('message', '')
-    instructions = __transform(message)
-    return render_template('instructions.html', instructions=instructions)
+    contacts_instructions = __transform(message)
+    return render_template('instructions.html', contacts_instructions=contacts_instructions)
 
 def __transform(message):
-    instructions = Sexting(message, 11).process()
-    return list(instructions)
+    all_instructions = Sexting(message, 11).process()
+
+    instructions_by_contact = {}
+    for i in all_instructions:
+        if i.contact().name() not in instructions_by_contact:
+            instructions_by_contact[i.contact().name()] = (i.contact(), [])
+        instructions_by_contact[i.contact().name()][1].append(i)
+
+    return instructions_by_contact.values()
 
