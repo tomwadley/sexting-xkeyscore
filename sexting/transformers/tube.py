@@ -1,4 +1,5 @@
 from ..lib.transformer import Transformer
+from ..lib.instruction import Instruction
 import csv, os
 from LatLon import LatLon
 
@@ -32,7 +33,7 @@ class Tube(Transformer):
         contact.set_state('lasttube', destination)
         contact.set_busy_func('tube', lambda clk: clock.jump_forward(12) > clk)
 
-        return 'Character: {0}, At: {1}, Begin tube journey by: {2}, From: {3}, To: {4}'.format(character, clock.block_range_str(), contact.get('name'), station, destination)
+        return Instruction('tube', character, clock, contact, {'from_station': station, 'to_station': destination})
 
     def __nearest_stations(self, station, qty):
         point1 = self._stations[station]

@@ -1,4 +1,5 @@
 from ..lib.transformer import Transformer
+from ..lib.instruction import Instruction
 import utils
 
 class Tweet(Transformer):
@@ -15,5 +16,5 @@ class Tweet(Transformer):
     def transform(self, character, contacts, clock):
         contact = contacts[0]
 
-        return 'Character: {0}, At: {1}, Tweet by: {2}'.format(character, clock.block_range_str(), contact.get('name'))
+        return Instruction('tweet', character, clock, contact)
 

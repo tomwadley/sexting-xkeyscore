@@ -1,4 +1,5 @@
 from ..lib.transformer import Transformer
+from ..lib.instruction import Instruction
 import utils
 
 class Voip(Transformer):
@@ -15,5 +16,5 @@ class Voip(Transformer):
     def transform(self, character, contacts, clock):
         contact_from, contact_to, odd = utils.rare1_character_transform(character, contacts, 'voipname')
 
-        return 'Character: {0}, At: {1}, Skype From: {2}, To: {3}, Odd number of voip mins: {4}'.format(character, clock.block_range_str(), contact_from.get('name'), contact_to.get('name'), odd)
+        return Instruction('voip', character, clock, contact_from, {'to': contact_to, 'odd_duration': odd})
 

@@ -1,4 +1,5 @@
 from ..lib.transformer import Transformer
+from ..lib.instruction import Instruction
 import utils
 
 class DebitCard(Transformer):
@@ -16,5 +17,5 @@ class DebitCard(Transformer):
         contact = contacts[0]
         supermarket, begin_range, end_range = utils.digit1_character_transform(character)
 
-        return 'Character: {0}, At: {1}, Debit card purchase by: {2}, At a supermarket: {3}, Amount ending in pence range: {4}-{5}'.format(character, clock.block_range_str(), contact.get('name'), supermarket, begin_range, end_range)
+        return Instruction('debitcard', character, clock, contact, {'is_supermarket': supermarket, 'begin_pence_range': begin_range, 'end_pence_range': end_range})
 

@@ -1,15 +1,23 @@
 
 class Contact:
 
-    def __init__(self, data):
+    def __init__(self, name, data):
+        self._name = name
         self._data = data
         self._busy_funcs = {}
         self._state = {}
 
+    def name(self):
+        return self._name
+
     def has(self, key):
+        if key == 'name':
+            return True
         return key in self._data
 
     def get(self, key):
+        if key == 'name':
+            return self._name
         return self._data[key]
 
     def is_busy(self, clock):
@@ -29,3 +37,6 @@ class Contact:
 
     def set_state(self, key, value):
         self._state[key] = value
+
+    def __str__(self):
+        return self._name

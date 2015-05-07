@@ -1,4 +1,5 @@
 from ..lib.transformer import Transformer
+from ..lib.instruction import Instruction
 import utils
 
 class Paypal(Transformer):
@@ -15,5 +16,5 @@ class Paypal(Transformer):
     def transform(self, character, contacts, clock):
         contact_from, contact_to, odd = utils.rare3_character_transform(character, contacts, 'email')
 
-        return 'Character: {0}, At: {1}, Paypal transfer From: {2}, To: {3}, Odd number of pence: {4}'.format(character, clock.block_range_str(), contact_from.get('name'), contact_to.get('name'), odd)
+        return Instruction('paypal', character, clock, contact_from, {'to': contact_to, 'odd_pence': odd})
 

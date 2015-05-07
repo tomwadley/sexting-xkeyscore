@@ -1,4 +1,5 @@
 from ..lib.transformer import Transformer
+from ..lib.instruction import Instruction
 import utils
 
 class FBMsg(Transformer):
@@ -15,5 +16,5 @@ class FBMsg(Transformer):
     def transform(self, character, contacts, clock):
         contact_from, contact_to, first_half, length = utils.common_character_transform(character, contacts, 'fbname')
 
-        return 'Character: {0}, At: {1}, Facebook Msg From: {2}, To: {3}, Even minute: {4}, Length: {5}'.format(character, clock.block_range_str(), contact_from.get('name'), contact_to.get('name'), first_half, length)
+        return Instruction('fbmsg', character, clock, contact_from, {'to': contact_to, 'even_minute': first_half, 'last_length_digit': length})
 

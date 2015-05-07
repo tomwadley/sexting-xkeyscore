@@ -17,7 +17,7 @@ class Sexting():
         for character in self.message:
             transformersWithContacts = list(self.__possible_transformers_and_contacts(character))
             while (not transformersWithContacts):
-                yield "Nothing to do at {0}".format(self.clock.block_range_str())
+                print "Nothing to do at {0}".format(self.clock.block_range_str())
                 self.clock = self.clock.next_block()
 
                 if (self.clock.day() > 10):

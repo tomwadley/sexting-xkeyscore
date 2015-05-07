@@ -1,4 +1,5 @@
 from ..lib.transformer import Transformer
+from ..lib.instruction import Instruction
 import utils
 
 class SMS(Transformer):
@@ -15,5 +16,5 @@ class SMS(Transformer):
     def transform(self, character, contacts, clock):
         contact_from, contact_to, first_half, length = utils.common_character_transform(character, contacts, 'phone')
 
-        return 'Character: {0}, At: {1}, SMS From: {2}, To: {3}, Even minute: {4}, Length: {5}'.format(character, clock.block_range_str(), contact_from.get('name'), contact_to.get('name'), first_half, length)
+        return Instruction('sms', character, clock, contact_from, {'to': contact_to, 'even_minute': first_half, 'last_length_digit': length})
 
