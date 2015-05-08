@@ -1,0 +1,109 @@
+{% if i.medium() in ['email', 'fbmsg', 'sms'] %}
+
+{% set to = i.data('to') %}
+{% set even_minute = i.data('even_minute') %}
+{% set last_length_digit = i.data('last_length_digit') %}
+
+{% if i.medium() == 'email' %}
+{% set medium_text = 'an email' %}
+{% set contact_text = to.get('email') %}
+{% elif i.medium() == 'fbmsg' %}
+{% set medium_text = 'a Facebook message' %}
+{% set contact_text = to.get('fbname') %}
+{% elif i.medium() == 'sms' %}
+{% set medium_text = 'an SMS' %}
+{% set contact_text = to.get('phone') %}
+{% endif %}
+
+<div class="text">
+  At <span class="clock">{{ i.clock().block_range_str() }}</span>
+  on an <span class="data">{{ 'even' if even_minute else 'odd' }}</span> minute,
+  send <span class="medium">{{ medium_text }}</span>
+  to <span class="data">{{ to.name() }}</span>
+  (<span class="data">{{ contact_text }}</span>)
+  with a word count ending in the digit '<span class="data">{{ last_length_digit }}</span>'
+</div>
+
+{% elif i.medium() == 'bankwire' %}
+
+{% set to = i.data('to') %}
+{% set odd_pence = i.data('odd_pence') %}
+
+<div class="text">
+  At <span class="clock">{{ i.clock().block_range_str() }}</span>
+  <span class="medium">transfer money</span> from your bank account to <span class="data">{{ to.name() }}</span>'s account
+  with an ammount ending in an <span class="data">{{ 'odd' if odd_pence else 'even' }}</span> number of pence.
+</div>
+
+{% elif i.medium() == 'paypal' %}
+
+{% set to = i.data('to') %}
+{% set odd_pence = i.data('odd_pence') %}
+
+<div class="text">
+  At <span class="clock">{{ i.clock().block_range_str() }}</span>
+  make a <span class="medium">paypal payment</span> to <span class="data">{{ to.name() }}</span>
+  (<span class="data">{{ to.get('email') }}</span>)
+  with an ammount ending in an <span class="data">{{ 'odd' if odd_pence else 'even' }}</span> number of pence.
+</div>
+
+{% elif i.medium() == 'voip' %}
+
+{% set to = i.data('to') %}
+{% set odd_duration = i.data('odd_duration') %}
+
+<div class="text">
+  At <span class="clock">{{ i.clock().block_range_str() }}</span>
+  make a <span class="medium">Skype call</span> to <span class="data">{{ to.name() }}</span>
+  (<span class="data">{{ to.get('voipname') }}</span>)
+  where the duration in minutes is an <span class="data">{{ 'odd' if odd_duration else 'even' }}</span> number.
+</div>
+
+{% elif i.medium() in ['contactlesscard', 'debitcard'] %}
+
+{% set is_supermarket = i.data('is_supermarket') %}
+{% set begin_pence_range = i.data('begin_pence_range') %}
+{% set end_pence_range = i.data('end_pence_range') %}
+
+<div class="text">
+  At <span class="clock">{{ i.clock().block_range_str() }}</span>
+  make a purchase using your <span class="data">{{ 'debit card' if i.medium() == 'debitcard' else 'contactless card' }}</span>
+  at a <span class="data">{{ 'supermarket' if is_supermarket else 'shop other than a supermarket' }}</span>
+  with a total ending in the pence range <span class="data">{{ begin_pence_range }}-{{ end_pence_range }}</span>.
+</div>
+
+{% elif i.medium() == 'tube' %}
+
+{% set from_station = i.data('from_station') %}
+{% set to_station = i.data('to_station') %}
+
+<div class="text">
+  At <span class="clock">{{ i.clock().block_range_str() }}</span>
+  <span class="medium">touch in</span> at <span class="data">{{ from_station }}</span> tube station
+  and travel to <span class="data">{{ to_station }}</span> where you should touch out.
+</div>
+
+{% elif i.medium() == 'fbstatus' %}
+
+<div class="text">
+  At <span class="clock">{{ i.clock().block_range_str() }}</span>
+  post a <span class="medium">Facebook status update</span>
+</div>
+
+{% elif i.medium() == 'tweet' %}
+
+<div class="text">
+  At <span class="clock">{{ i.clock().block_range_str() }}</span>
+  post a <span class="medium">Tweet</span>.
+</div>
+
+{% else %}
+
+<div class="text">
+  Something else: {{ i }}
+</div>
+
+{% endif %}
+
+<div class="character">=&gt;</div>
+<div class="character">{{ i.character() }}</div>

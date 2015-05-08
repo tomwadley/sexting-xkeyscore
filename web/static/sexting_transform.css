@@ -9,9 +9,13 @@ body { margin: 0; padding: 0 }
   .page-break { display: block; page-break-before: always; }
 }
 
-#instructions { margin: 0 0 10px 10px; padding: 0; font-family: sans-serif; }
+#instructions { margin: 0 0 10px 10px; padding: 0; font-family: sans-serif; line-height: 28px; }
 
-h1 { margin: 0; padding: 0; margin-bottom: 20px; }
+h1 { margin: 0; padding: 0; margin-bottom: 30px; }
 
-ul { list-style: none; }
-li { margin-bottom: 20px; }
+ul { display: table; }
+li { display: table-row; }
+div.text { display: table-cell; width: 80%; padding-bottom: 30px; }
+div.character { display: table-cell; width: 10%; text-align: right; font-style: italic; padding-right: 10px; }
+
+span.medium, span.clock, span.data { font-weight: bold; }
