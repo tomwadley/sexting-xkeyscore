@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Joe Bloggs",
+    "data": {
+      "email": "joe@bloggs.com",
+      "phone": "07712345678",
+      "fbname": "joebloggs",
+      "voipname": "joe_bloggs72",
+      "tubestation": "Bank",
+      "contactless": true,
+      "twitter": true
+    }
+  },
+  {
+    "name": "Jane Doe",
+    "data": {
+      "email": "jane@doe.com",
+      "phone": "07798765432",
+      "fbname": "janedoe",
+      "voipname": "janie_99",
+      "tubestation": "Tooting Broadway",
+      "contactless": true,
+      "twitter": true
+    }
+  }
+]

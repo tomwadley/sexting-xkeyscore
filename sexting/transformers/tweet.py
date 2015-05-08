@@ -8,7 +8,7 @@ class Tweet(Transformer):
         return character == ' '
 
     def can_handle_contact(self, contact, clock):
-        return contact.has('twitter')
+        return (contact.has('twitter') and contact.get('twitter') == True)
 
     def num_required_contacts(self):
         return 1

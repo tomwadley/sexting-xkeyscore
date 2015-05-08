@@ -1,9 +1,10 @@
 from web import app
 from flask import render_template, request, url_for, redirect
-import os, errno, uuid
+import os, errno, uuid, subprocess, shutil
 from sexting.sexting import Sexting
 import pdfkit
-import subprocess
+
+_contacts_file = 'contacts.json'
 
 @app.route('/')
 def message_input():
@@ -12,14 +13,23 @@ def message_input():
 @app.route('/print', methods=['POST'])
 def transform_and_print():
     message = request.form['message']
-    url = url_for('transform', _external=True, message=message)
-    output_path = __get_output_path()
-    print "Generating pdf ({0}) from {1}".format(output_path, url)
+    request_id = str(uuid.uuid4())
+
+    print "Request ID: {0}, Message: {1}".format(request_id, message)
+
+    url = url_for('transform', _external=True, message=message, start_hour=11)
+
+    output_path = __get_output_path(request_id + '.pdf')
+    __backup_contacts(request_id)
     __generate_pdf(url, output_path)
     subprocess.Popen(['lpr', output_path])
+
     return redirect(url_for('message_input'))
 
-def __get_output_path():
+def __backup_contacts(request_id):
+    shutil.copy(_contacts_file, __get_output_path(request_id + '.json'))
+
+def __get_output_path(filename):
     output_dir = 'output'
     try:
         os.makedirs(output_dir)
@@ -28,7 +38,7 @@ def __get_output_path():
             pass
         else:
             raise
-    return os.path.join(output_dir, str(uuid.uuid4()) + '.pdf')
+    return os.path.join(output_dir, filename)
 
 def __generate_pdf(url, output_path):
     options = {
@@ -44,11 +54,13 @@ def __generate_pdf(url, output_path):
 @app.route('/transform')
 def transform():
     message = request.args.get('message', '')
-    contacts_instructions = __transform(message)
+    start_hour = request.args.get('startHour', 11)
+
+    contacts_instructions = __transform(message, start_hour)
     return render_template('instructions.html', contacts_instructions=contacts_instructions)
 
-def __transform(message):
-    all_instructions = Sexting(message, 11).process()
+def __transform(message, start_hour):
+    all_instructions = Sexting(_contacts_file, message, start_hour).process()
 
     instructions_by_contact = {}
     for i in all_instructions:
