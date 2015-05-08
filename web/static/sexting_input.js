@@ -24,7 +24,7 @@ $.each(allKeys, function(i, key) {
 });
 
 function updateDom() {
-  $('#display').text(message);
+  $('#display').html(message + '<span class="cursor">|</span>');
   $('#message').val(message);
 }
 

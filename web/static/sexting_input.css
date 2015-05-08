@@ -3,5 +3,21 @@ body { margin: 0; padding: 0 }
 
 #messageInput { background-color: black; position: absolute; height: 100%; width: 100%; display: flex; align-items: center; }
 
-#display { color: white; font-size: 125px; font-family: sans-serif; text-align: center; width: 100%; user-select: none; -moz-user-select: none; -webkit-user-select: none; word-break: break-all; }
+#display { color: white; font-size: 125px; font-family: sans-serif; text-align: center; width: 100%; user-select: none; -moz-user-select: none; -webkit-user-select: none; word-break: break-all; white-space: pre-wrap; }
 
+.cursor { position: relative; top: -10px; }
+
+.cursor {
+  animation: cursor 1.5s steps(2, start) infinite;
+  -webkit-animation: cursor 1.5s steps(2, start) infinite;
+}
+@keyframes cursor {
+  to {
+    visibility: hidden;
+  }
+}
+@-webkit-keyframes cursor {
+  to {
+    visibility: hidden;
+  }
+}
