@@ -9,13 +9,15 @@ body { margin: 0; padding: 0 }
   .page-break { display: block; page-break-before: always; }
 }
 
-#instructions { margin: 0 0 10px 10px; padding: 0; font-family: sans-serif; line-height: 28px; }
+#instructions { margin: 0 0 10px 10px; padding: 0; font-family: sans-serif; }
 
-h1 { margin: 0; padding: 0; margin-bottom: 30px; }
+h1 { margin: 0; padding: 0; margin-bottom: 70px; font-size: 60px; }
 
 ul { display: table; }
-li { display: table-row; }
-div.text { display: table-cell; width: 80%; padding-bottom: 30px; }
-div.character { display: table-cell; width: 10%; text-align: right; font-style: italic; padding-right: 10px; }
+li { display: table-row; page-break-inside: avoid; }
+.instruction { font-size: 30px; line-height: 40px; }
+.index { font-style: italic; }
+.text { display: table-cell; width: 80%; padding-bottom: 45px; }
+.character, .becomes { display: table-cell; width: 10%; text-align: right; font-style: italic; padding-right: 10px; }
 
 span.medium, span.clock, span.data { font-weight: bold; }

@@ -33,12 +33,11 @@ def __get_output_path():
 def __generate_pdf(url, output_path):
     options = {
         'page-size': 'A4',
-        'margin-top': '0.75in',
-        'margin-right': '0.75in',
-        'margin-bottom': '0.75in',
-        'margin-left': '0.75in',
+        'margin-top': '1.27cm',
+        'margin-right': '1.27cm',
+        'margin-bottom': '1.27cm',
+        'margin-left': '1.27cm',
         'encoding': "UTF-8",
-        'minimum-font-size': '30'
     }
     pdfkit.from_url(url, output_path, options)
 

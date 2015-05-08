@@ -15,8 +15,13 @@
 
     <ul>
     {% for i in instructions %}
-      <li>
-        {% include "__instruction.html" %}
+      <li class="instruction">
+        <div class="text">
+          <span class="index">{{ loop.index }})</span>
+          {% include "__instruction.html" %}
+        </div>
+        <div class="becomes">&#x21d2;</div>
+        <div class="character">{{ i.character() }}</div>
       </li>
     {% endfor %}
     </ul>
