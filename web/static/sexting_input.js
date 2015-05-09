@@ -48,6 +48,7 @@ $.each(allKeys, function(i, key) {
 function updateDom() {
   $('#display').html(message + '<span class="cursor">|</span>');
   $('#message').val(message);
+  $('.cursor')[0].scrollIntoView(true);
 }
 
 function registerChar(character) {

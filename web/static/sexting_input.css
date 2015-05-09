@@ -1,7 +1,7 @@
 
-body { margin: 0; padding: 0 }
+body { margin: 0; padding: 0; background-color: black; }
 
-#messageInput { background-color: black; position: absolute; height: 100%; width: 100%; display: flex; align-items: center; }
+#messageInput { position: absolute; height: 100%; width: 100%; display: flex; align-items: center; }
 
 #display { color: white; font-size: 125px; font-family: sans-serif; text-align: center; width: 100%; user-select: none; -moz-user-select: none; -webkit-user-select: none; word-break: break-all; white-space: pre-wrap; }
 
