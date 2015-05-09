@@ -1,7 +1,7 @@
 from email import Email
 from sms import SMS
 from fbmsg import FBMsg
-from voip import Voip
+from phone import Phone
 from bankwire import BankWire
 from paypal import Paypal
 from debitcard import DebitCard
@@ -15,7 +15,7 @@ def all_transformers():
         Email(),
         SMS(),
         FBMsg(),
-        Voip(),
+        Phone(),
         BankWire(),
         Paypal(),
         DebitCard(),

@@ -47,15 +47,15 @@
   with an ammount ending in an <span class="data">{{ 'odd' if odd_pence else 'even' }}</span> number of pence.
 </span>
 
-{% elif i.medium() == 'voip' %}
+{% elif i.medium() == 'phone' %}
 
 {% set to = i.data('to') %}
 {% set odd_duration = i.data('odd_duration') %}
 
 <span>
   At <span class="clock">{{ i.clock().block_range_str() }}</span>
-  make a <span class="medium">Skype call</span> to <span class="data">{{ to.name() }}</span>
-  (<span class="data">{{ to.get('voipname') }}</span>)
+  make a <span class="medium">phone call</span> to <span class="data">{{ to.name() }}</span>
+  (<span class="data">{{ to.get('phone') }}</span>)
   where the duration in minutes is an <span class="data">{{ 'odd' if odd_duration else 'even' }}</span> number.
 </span>
 

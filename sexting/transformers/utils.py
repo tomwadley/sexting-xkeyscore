@@ -1,11 +1,11 @@
 
 __common_characters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "l", "m", "n", "o", "p", "r", "s", "t", "u", "w", "y"]
 __common_upper_characters = map(lambda c: c.upper(), __common_characters)
-__rare1_characters = ["j", "k"]
+__rare1_characters = ["k", "v"]
 __rare1_upper_characters = map(lambda c: c.upper(), __rare1_characters)
-__rare2_characters = ["q", "v"]
+__rare2_characters = ["j", "x"]
 __rare2_upper_characters = map(lambda c: c.upper(), __rare2_characters)
-__rare3_characters = ["x", "z"]
+__rare3_characters = ["q", "z"]
 __rare3_upper_characters = map(lambda c: c.upper(), __rare3_characters)
 __digit1_characters = ["0", "2", "4", "6", "8"]
 __digit2_characters = ["1", "3", "5", "7", "9"]
