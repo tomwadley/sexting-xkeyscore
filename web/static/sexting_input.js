@@ -38,6 +38,7 @@ mappings = {
 };
 
 keyDown = {}
+recentCharacter = '';
 
 message = "";
 
@@ -75,6 +76,13 @@ function processBackspace() {
   }
 }
 
+function updateRecentCharacter(character) {
+  recentCharacter = character;
+  window.setTimeout(function() {
+    recentCharacter = '';
+  }, 500);
+}
+
 function currentKeySet() {
   modKey = 0
   $.each(modKeys, function(i, key) {
@@ -97,7 +105,12 @@ function keyPressed(key) {
       if (keyDown[shiftKey]) {
         character = character.toUpperCase();
       }
-      registerChar(character);
+      if (recentCharacter != character) {
+        registerChar(character);
+        updateRecentCharacter(character);
+      } else {
+        console.log("Supressed double tap of '" + character + "'");
+      }
     } else {
       if (character == "ENTER") {
         processEnter();
