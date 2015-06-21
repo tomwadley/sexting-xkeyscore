@@ -1,4 +1,4 @@
-from web import app
+from seance import app
 from flask import render_template, request, url_for, redirect
 import os, errno, uuid, subprocess, shutil
 from sexting.sexting import Sexting

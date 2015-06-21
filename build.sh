@@ -12,7 +12,7 @@ fi
 
 pip install -r requirements.txt
 
-pushd web
+pushd seance
 bower install
 popd
 
@@ -24,4 +24,4 @@ if ! hash lpr 2>/dev/null; then
   echo "Warning: Can't find command 'lpr' - check your CUPS installation"
 fi
 
-echo "Run ./runserver.py to start"
+echo "Run ./runseance.py to start"

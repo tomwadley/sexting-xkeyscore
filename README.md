@@ -30,7 +30,7 @@ To install dependencies:
 
 Then start the server:
 
-    ./runserver.py
+    ./runseance.py
 
 Now access it on [localhost:5000](http://localhost:5000).
 
