@@ -7,10 +7,10 @@ from lib.clock import Clock
 
 class Sexting():
 
-    def __init__(self, contacts_file, message, start_hour):
+    def __init__(self, contacts, message, start_hour):
         self.message = message
         self.transformers = all_transformers()
-        self.contacts = list(ContactLoader().load(contacts_file))
+        self.contacts = contacts
         self.clock = Clock(int(start_hour))
 
     def process(self):
@@ -65,7 +65,9 @@ def main():
     message = sys.argv[2]
     start_hour = sys.argv[3]
 
-    for i in Sexting(contacts_file, message, start_hour).process():
+    contacts = ContactLoader().all_from_file(contacts_file)
+
+    for i in Sexting(contacts, message, start_hour).process():
         print i
 
 if __name__ == '__main__':

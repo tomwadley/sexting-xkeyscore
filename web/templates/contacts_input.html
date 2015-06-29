@@ -1,0 +1,86 @@
+{% extends "__master.html" %}
+{% block content %}
+<h1>Enter your contacts</h1>
+
+<template id="contactFormTemplate">
+  <div class="well">
+    <div class="form-group">
+      <label>Name</label>
+      <input type="text" name="cx.name" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Phone</label>
+      <input type="text" name="cx.phone" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Facebook Name</label>
+      <input type="text" name="cx.fbname" class="form-control">
+    </div>
+    <div class="form-group">
+      <label>Nearest tubestation</label>
+      <input type="text" name="cx.tubestation" class="form-control">
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" name="cx.contactless"> Has Contactless card?
+      </label>
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" name="cx.twitter"> Has Twitter?
+      </label>
+    </div>
+    <a href="#" class="btn btn-default deleteContact">Delete contact</a>
+  </div>
+</template>
+
+<script>
+  function addContact(index, contact) {
+    var template = $('#contactFormTemplate').html();
+    var $instance = $('<div class="contact">').append(template);
+
+    var data = contact['data'] || {};
+    $instance.find('input[name="cx.name"]').val(contact['name']);
+    $instance.find('input[name="cx.phone"]').val(data['phone']);
+    $instance.find('input[name="cx.fbname"]').val(data['fbname']);
+    $instance.find('input[name="cx.tubestation"]').val(data['tubestation']);
+    $instance.find('input[name="cx.contactless"]').prop('checked', data['contactless'] === true);
+    $instance.find('input[name="cx.twitter"]').prop('checked', data['twitter'] === true);
+
+    $instance.find('input').each(function(i, input) {
+      var $input = $(input);
+      var newName = 'c' + index + '.' + $input.attr('name').slice('cx.'.length);
+      $input.attr('name', newName);
+    });
+
+    $('#contactForm').append($instance);
+  }
+
+  function removeContact(e) {
+    $(e.target).parents('.contact').remove();
+      return false;
+  }
+
+  function initContacts(contacts) {
+    $.each(contacts, addContact);
+    return contacts.length;
+  }
+
+  $(function() {
+    var nextIndex = initContacts({{ contacts_json | safe }});
+
+    $('body').on('click', '#addContact', function() {
+      addContact(nextIndex, {});
+      nextIndex++;
+      return false;
+    }).on('click', '.deleteContact', removeContact);
+  });
+</script>
+
+<form action="contacts" method="POST" id="contactForm">
+
+  <a href="#" id="addContact" class="btn btn-default">Add contact</a>
+  <button type="submit" class="btn btn-default">Submit</button>
+</form>
+
+{% endblock %}

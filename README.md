@@ -10,11 +10,23 @@ Your message is encoded as a sequence of instructions (send an email, make a pur
 
 You can encode a message into an instruction list for a group of people whose details are in a json file:
 
-    python -m sexting.sexting contacts.json "Put your message here" 11
+    ./sexting.py contacts.json "Put your message here" 11
 
 The last parameter is the hour of the day that the instructions should begin on (0-23), in this case 11:00 in the morning.
 
 A sample `contacts.json` file has been provided.
+
+## Running the web interface
+
+To install dependencies:
+
+    ./build.sh
+
+Start the server running with:
+
+    ./runsextingweb.py
+
+Now access it on [localhost:5000](http://localhost:5000).
 
 ## Running the séance web interface
 

@@ -3,9 +3,18 @@ import json
 
 class ContactLoader:
 
-    def load(self, contacts_file):
+    def all_from_file(self, contacts_file):
+        return list(self.from_file(contacts_file))
+
+    def from_file(self, contacts_file):
         with open(contacts_file) as f:
-            raw_contacts = json.load(f)
-            for r in raw_contacts:
-                yield Contact(r['name'], r['data'])
+            dicts = json.load(f)
+            return self.from_dicts(dicts)
+
+    def all_from_dicts(self, dicts):
+        return list(self.from_dicts(dicts))
+
+    def from_dicts(self, dicts):
+        for r in dicts:
+            yield Contact(r['name'], r['data'])
 

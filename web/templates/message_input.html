@@ -1,0 +1,9 @@
+{% extends "__master.html" %}
+{% block content %}
+<h1>Enter your message</h1>
+
+<form action="message" method="POST">
+  <input type="text" name="message" value="{{ message }}">
+</form>
+
+{% endblock %}

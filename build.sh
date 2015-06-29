@@ -16,6 +16,10 @@ pushd seance
 bower install
 popd
 
+pushd web
+bower install
+popd
+
 if ! hash wkhtmltopdf 2>/dev/null; then
   echo "Warning: You need to install 'wkhtmltopdf' (apt-get install wkhtmltopdf)"
 fi
@@ -24,4 +28,4 @@ if ! hash lpr 2>/dev/null; then
   echo "Warning: Can't find command 'lpr' - check your CUPS installation"
 fi
 
-echo "Run ./runseance.py to start"
+echo "Run ./runseance.py or ./runsextingweb.py to start"
