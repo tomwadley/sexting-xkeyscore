@@ -20,6 +20,10 @@ def submit_message():
 
 @app.route('/contacts')
 def contacts_input():
+    message = session.get('message', '')
+    if not message:
+        return redirect(url_for('message_input'))
+
     contacts = session.get('contacts', [{}])
     contacts_json = json.dumps(contacts)
     return render_template('contacts_input.html', contacts_json=contacts_json)
@@ -30,7 +34,7 @@ def submit_contacts():
 
     session['contacts'] = contacts
 
-    return redirect(url_for('contacts_input'))
+    return redirect(url_for('view_instructions'))
 
 def __decode_contacts(form):
     contacts = []
@@ -65,8 +69,11 @@ def __decode_checkbox(d, field):
 @app.route('/instructions')
 def view_instructions():
     message = session.get('message', '')
-    contacts = session.get('contacts', [{}])
+    contacts = session.get('contacts', [])
     start_hour = 11
+
+    if not message or not contacts:
+        return redirect(url_for('message_input'))
 
     contacts_instructions = __transform(message, contacts, start_hour)
     return render_template('instructions.html', contacts_instructions=contacts_instructions)
