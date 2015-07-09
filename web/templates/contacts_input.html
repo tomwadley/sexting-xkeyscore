@@ -18,7 +18,7 @@
     </div>
     <div class="form-group">
       <label>Nearest tubestation</label>
-      <input type="text" name="cx.tubestation" class="form-control">
+      <input type="text" name="cx.tubestation" list="stations" autocomplete="off" class="form-control">
     </div>
     <div class="checkbox">
       <label>
@@ -78,6 +78,12 @@
 </script>
 
 <form action="contacts" method="POST" id="contactForm">
+
+  <datalist id="stations">
+    {% for station in stations %}
+    <option>{{ station }}</option>
+    {% endfor %}
+  </datalist>
 
   <a href="#" id="addContact" class="btn btn-default">Add contact</a>
   <button type="submit" class="btn btn-default">Submit</button>

@@ -3,7 +3,10 @@ from flask import render_template, request, url_for, redirect, session
 import re, json
 from sexting.sexting import Sexting
 from sexting.lib.contactloader import ContactLoader
+from sexting.lib.tubedata import TubeData
 from formencode.variabledecode import variable_decode
+
+_tubedata = TubeData()
 
 @app.route('/')
 def message_input():
@@ -26,7 +29,7 @@ def contacts_input():
 
     contacts = session.get('contacts', [{}])
     contacts_json = json.dumps(contacts)
-    return render_template('contacts_input.html', contacts_json=contacts_json)
+    return render_template('contacts_input.html', contacts_json=contacts_json, stations=_tubedata.all_stations())
 
 @app.route('/contacts', methods=['POST'])
 def submit_contacts():
