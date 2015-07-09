@@ -1,5 +1,5 @@
 from web import app
-from flask import render_template, request, url_for, redirect, session
+from flask import render_template, request, url_for, redirect, session, flash
 import re, json
 from sexting.sexting import Sexting
 from sexting.lib.contactloader import ContactLoader
@@ -15,7 +15,9 @@ def message_input():
 
 @app.route('/message', methods=['POST'])
 def submit_message():
-    message = request.form['message']
+    message = request.form.get('message', '')
+    if not __validate_message(message):
+        return __invalid_message()
 
     session['message'] = message
 
@@ -24,8 +26,8 @@ def submit_message():
 @app.route('/contacts')
 def contacts_input():
     message = session.get('message', '')
-    if not message:
-        return redirect(url_for('message_input'))
+    if not __validate_message(message):
+        return __invalid_message()
 
     contacts = session.get('contacts', [{}])
     contacts_json = json.dumps(contacts)
@@ -34,6 +36,8 @@ def contacts_input():
 @app.route('/contacts', methods=['POST'])
 def submit_contacts():
     contacts = __decode_contacts(request.form)
+    if not __validate_contacts(contacts):
+        return __invalid_contacts()
 
     session['contacts'] = contacts
 
@@ -63,6 +67,9 @@ def __decode_contact(d):
     __decode_checkbox(d, 'contactless')
     __decode_checkbox(d, 'twitter')
 
+    if 'tubestation' in d and not _tubedata.is_valid_station(d['tubestation']):
+        return None
+
     return {'name': name, 'data': d}
 
 def __decode_checkbox(d, field):
@@ -75,8 +82,8 @@ def view_instructions():
     contacts = session.get('contacts', [])
     start_hour = 11
 
-    if not message or not contacts:
-        return redirect(url_for('message_input'))
+    if not __all_data_provided(message, contacts):
+        return __no_data()
 
     contacts_instructions = __transform(message, contacts, start_hour)
     return render_template('instructions.html', contacts_instructions=contacts_instructions)
@@ -92,4 +99,24 @@ def __transform(message, contacts, start_hour):
         instructions_by_contact[i.contact().name()][1].append(i)
 
     return instructions_by_contact.values()
+
+def __validate_message(message):
+    return bool(message)
+
+def __invalid_message():
+    flash('You must enter a message!', 'warning')
+    return redirect(url_for('message_input'))
+
+def __validate_contacts(contacts):
+    return bool(contacts)
+
+def __invalid_contacts():
+    flash('You must enter contact details!', 'warning')
+    return redirect(url_for('contacts_input'))
+
+def __all_data_provided(message, contacts):
+    return __validate_message(message) and __validate_contacts(contacts)
+
+def __no_data():
+    return redirect(url_for('message_input'))
 
