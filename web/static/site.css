@@ -7,4 +7,6 @@ html { overflow-y: scroll; }
 
 #footer { height: 50px; }
 
+li.disabled a { pointer-events: none; }
+
 #message-form { margin-top: 20px; margin-bottom: 20px; }

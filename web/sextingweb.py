@@ -17,7 +17,8 @@ def message_input():
 def submit_message():
     message = request.form.get('message', '')
     if not __validate_message(message):
-        return __invalid_message()
+        flash('You must enter a message!', 'warning')
+        return redirect(url_for('message_input'))
 
     session['message'] = message
 
@@ -27,7 +28,7 @@ def submit_message():
 def contacts_input():
     message = session.get('message', '')
     if not __validate_message(message):
-        return __invalid_message()
+        return redirect(url_for('message_input'))
 
     contacts = session.get('contacts', [{}])
     contacts_json = json.dumps(contacts)
@@ -37,7 +38,8 @@ def contacts_input():
 def submit_contacts():
     contacts = __decode_contacts(request.form)
     if not __validate_contacts(contacts):
-        return __invalid_contacts()
+        flash('You must enter contact details!', 'warning')
+        return redirect(url_for('contacts_input'))
 
     session['contacts'] = contacts
 
@@ -83,7 +85,7 @@ def view_instructions():
     start_hour = 11
 
     if not __all_data_provided(message, contacts):
-        return __no_data()
+        return redirect(url_for('message_input'))
 
     contacts_instructions = __transform(message, contacts, start_hour)
     return render_template('instructions.html', contacts_instructions=contacts_instructions, nav_data=__nav_data())
@@ -108,20 +110,9 @@ def __nav_data():
 def __validate_message(message):
     return bool(message)
 
-def __invalid_message():
-    flash('You must enter a message!', 'warning')
-    return redirect(url_for('message_input'))
-
 def __validate_contacts(contacts):
     return bool(contacts)
 
-def __invalid_contacts():
-    flash('You must enter contact details!', 'warning')
-    return redirect(url_for('contacts_input'))
-
 def __all_data_provided(message, contacts):
     return __validate_message(message) and __validate_contacts(contacts)
-
-def __no_data():
-    return redirect(url_for('message_input'))
 

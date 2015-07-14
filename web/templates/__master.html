@@ -37,11 +37,19 @@
             <h2>{% block title %}{% endblock %}</h2>
           </div>
           <div class="col-sm-6">
+            {% macro nav_link(active, id, url, text, enabled) %}
+            <li role="presentation"
+              {% if active == id %}class="active"{% endif %}
+              {% if not enabled %}class="disabled"{% endif %}
+              >
+              <a href="{{ url }}">{{ text }}</a>
+            </li>
+            {% endmacro %}
             {% macro nav_for(active) %}
             <ul class="nav nav-pills">
-              <li role="presentation" {% if active == 'message' %}class="active"{% endif %}><a href="{{ url_for('message_input') }}">Message</a></li>
-              <li role="presentation" {% if active == 'contacts' %}class="active"{% endif %}{% if not nav_data.show_contacts %}class="disabled"{% endif %}><a href="{{ url_for('contacts_input') }}">Contacts</a></li>
-              <li role="presentation" {% if active == 'instructions' %}class="active"{% endif %}{% if not nav_data.show_instructions %}class="disabled"{% endif %}><a href="{{ url_for('view_instructions') }}">Instructions</a></li>
+              {{ nav_link(active, 'message', url_for('message_input'), 'Message', True) }}
+              {{ nav_link(active, 'contacts', url_for('contacts_input'), 'Contacts', nav_data.show_contacts) }}
+              {{ nav_link(active, 'instructions', url_for('view_instructions'), 'Instructions', nav_data.show_instructions) }}
             </ul>
             {% endmacro %}
             <div id="nav" class="well well-sm hidden-xs">
