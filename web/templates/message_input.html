@@ -1,9 +1,16 @@
 {% extends "__master.html" %}
+{% block title %}
+Enter your message
+{% endblock %}
 {% block content %}
-<h1>Enter your message</h1>
+
+<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque lacinia eleifend tortor, at scelerisque leo venenatis sit amet. Praesent at velit velit. Vivamus sed risus eu eros vestibulum semper. Praesent gravida rhoncus augue nec gravida. Fusce sit amet imperdiet diam. Phasellus venenatis tincidunt dolor eu varius. Etiam luctus eu nibh ut ornare. Sed placerat lorem quis dignissim vestibulum. Ut a cursus tellus, sit amet malesuada leo.</p>
 
 <form action="message" method="POST">
-  <input type="text" name="message" value="{{ message }}">
+  <div id="message-form" class="form-group">
+    <input type="text" id="message" name="message" value="{{ message }}" placeholder="Your message to XKeyscore" class="form-control input-lg">
+  </div>
+  <button type="submit" class="btn btn-primary btn-lg pull-right">Next</button>
 </form>
 
 {% endblock %}

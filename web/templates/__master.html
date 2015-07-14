@@ -8,6 +8,7 @@
     <title>Sexting XKeyscore</title>
 
     <link rel="stylesheet" href="{{ url_for('bower.static', filename='bootstrap/dist/css/bootstrap.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='site.css') }}">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -20,13 +21,45 @@
     <script src="{{ url_for('bower.static', filename='bootstrap/dist/js/bootstrap.js') }}"></script>
   </head>
   <body>
-    {% for (category, message) in get_flashed_messages(True) %}
-    <div class="alert alert-dismissible alert-{{ category }}">
-      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-      {{ message }}
+    <div id="primary-header">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12">
+            <h1>Sexting XKeyscore</h1>
+          </div>
+        </div>
+      </div>
     </div>
-    {% endfor %}
+    <div id="secondary-header">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12">
+            <h2>{% block title %}{% endblock %}</h2>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    {% block content %}{% endblock %}
+    <div class="container">
+      <div class="row">
+        <div class="col-xs-12">
+          {% for (category, message) in get_flashed_messages(True) %}
+          <div class="alert alert-dismissible alert-{{ category }}">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            {{ message }}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xs-12">
+          {% block content %}{% endblock %}
+        </div>
+      </div>
+    </div>
+
+    <div id="footer">
+    </div>
   </body>
 </html>

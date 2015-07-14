@@ -1,9 +1,11 @@
 {% extends "__master.html" %}
+{% block title %}
+Enter your contacts
+{% endblock %}
 {% block content %}
-<h1>Enter your contacts</h1>
 
 <template id="contactFormTemplate">
-  <div class="well">
+  <div class="well clearfix">
     <div class="form-group">
       <label>Name</label>
       <input type="text" name="cx.name" class="form-control">
@@ -30,7 +32,7 @@
         <input type="checkbox" name="cx.twitter"> Has Twitter?
       </label>
     </div>
-    <a href="#" class="btn btn-default deleteContact">Delete contact</a>
+    <a href="#" class="btn btn-danger pull-right deleteContact"><span class="glyphicon glyphicon-minus" aria-hidden="true"></span> Delete contact</a>
   </div>
 </template>
 
@@ -53,7 +55,7 @@
       $input.attr('name', newName);
     });
 
-    $('#contactForm').append($instance);
+    $('#contactFormlets').append($instance);
   }
 
   function removeContact(e) {
@@ -77,7 +79,7 @@
   });
 </script>
 
-<form action="contacts" method="POST" id="contactForm">
+<form action="contacts" method="POST">
 
   <datalist id="stations">
     {% for station in stations %}
@@ -85,8 +87,13 @@
     {% endfor %}
   </datalist>
 
-  <a href="#" id="addContact" class="btn btn-default">Add contact</a>
-  <button type="submit" class="btn btn-default">Submit</button>
+  <div class="clear-fix">
+    <div id="contactFormlets">
+    </div>
+
+    <a href="#" id="addContact" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add contact</a>
+  </div>
+  <button type="submit" class="btn btn-primary btn-lg pull-right">Next</button>
 </form>
 
 {% endblock %}
