@@ -11,7 +11,7 @@ _tubedata = TubeData()
 @app.route('/')
 def message_input():
     message = session.get('message', '')
-    return render_template('message_input.html', message=message)
+    return render_template('message_input.html', message=message, nav_data=__nav_data())
 
 @app.route('/message', methods=['POST'])
 def submit_message():
@@ -31,7 +31,7 @@ def contacts_input():
 
     contacts = session.get('contacts', [{}])
     contacts_json = json.dumps(contacts)
-    return render_template('contacts_input.html', contacts_json=contacts_json, stations=_tubedata.all_stations())
+    return render_template('contacts_input.html', contacts_json=contacts_json, stations=_tubedata.all_stations(), nav_data=__nav_data())
 
 @app.route('/contacts', methods=['POST'])
 def submit_contacts():
@@ -86,7 +86,7 @@ def view_instructions():
         return __no_data()
 
     contacts_instructions = __transform(message, contacts, start_hour)
-    return render_template('instructions.html', contacts_instructions=contacts_instructions)
+    return render_template('instructions.html', contacts_instructions=contacts_instructions, nav_data=__nav_data())
 
 def __transform(message, contacts, start_hour):
     contacts = ContactLoader().all_from_dicts(contacts)
@@ -99,6 +99,11 @@ def __transform(message, contacts, start_hour):
         instructions_by_contact[i.contact().name()][1].append(i)
 
     return instructions_by_contact.values()
+
+def __nav_data():
+    show_contacts = 'message' in session
+    show_instructions = 'contacts' in session
+    return {'show_contacts': show_contacts, 'show_instructions': show_instructions}
 
 def __validate_message(message):
     return bool(message)

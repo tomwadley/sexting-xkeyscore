@@ -33,8 +33,20 @@
     <div id="secondary-header">
       <div class="container">
         <div class="row">
-          <div class="col-xs-12">
+          <div class="col-sm-6">
             <h2>{% block title %}{% endblock %}</h2>
+          </div>
+          <div class="col-sm-6">
+            {% macro nav_for(active) %}
+            <ul class="nav nav-pills">
+              <li role="presentation" {% if active == 'message' %}class="active"{% endif %}><a href="{{ url_for('message_input') }}">Message</a></li>
+              <li role="presentation" {% if active == 'contacts' %}class="active"{% endif %}{% if not nav_data.show_contacts %}class="disabled"{% endif %}><a href="{{ url_for('contacts_input') }}">Contacts</a></li>
+              <li role="presentation" {% if active == 'instructions' %}class="active"{% endif %}{% if not nav_data.show_instructions %}class="disabled"{% endif %}><a href="{{ url_for('view_instructions') }}">Instructions</a></li>
+            </ul>
+            {% endmacro %}
+            <div id="nav" class="well well-sm hidden-xs">
+              {% block nav %}{% endblock %}
+            </div>
           </div>
         </div>
       </div>
