@@ -7,6 +7,10 @@ Your instructions
 {% endblock %}
 {% block content %}
 
+<button type="button" class="btn btn-default hidden-print pull-right" onclick="window.print()">
+  <span class="glyphicon glyphicon-print" aria-hidden="true"></span> Print Instructions
+</button>
+
 <div id="instructions">
 
   {% for (contact, instructions) in contacts_instructions %}

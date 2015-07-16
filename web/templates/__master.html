@@ -21,44 +21,46 @@
     <script src="{{ url_for('bower.static', filename='bootstrap/dist/js/bootstrap.js') }}"></script>
   </head>
   <body>
-    <div id="primary-header">
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-12">
-            <h1>Sexting XKeyscore</h1>
+    <header class="hidden-print">
+      <div id="primary-header">
+        <div class="container">
+          <div class="row">
+            <div class="col-xs-12">
+              <h1>Sexting XKeyscore</h1>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div id="secondary-header">
-      <div class="container">
-        <div class="row">
-          <div class="col-sm-6">
-            <h2>{% block title %}{% endblock %}</h2>
-          </div>
-          <div class="col-sm-6">
-            {% macro nav_link(active, id, url, text, enabled) %}
-            <li role="presentation"
-              {% if active == id %}class="active"{% endif %}
-              {% if not enabled %}class="disabled"{% endif %}
-              >
-              <a href="{{ url }}">{{ text }}</a>
-            </li>
-            {% endmacro %}
-            {% macro nav_for(active) %}
-            <ul class="nav nav-pills">
-              {{ nav_link(active, 'message', url_for('message_input'), 'Message', True) }}
-              {{ nav_link(active, 'contacts', url_for('contacts_input'), 'Contacts', nav_data.show_contacts) }}
-              {{ nav_link(active, 'instructions', url_for('view_instructions'), 'Instructions', nav_data.show_instructions) }}
-            </ul>
-            {% endmacro %}
-            <div id="nav" class="well well-sm hidden-xs">
+      <div id="secondary-header">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-6">
+              <h2>{% block title %}{% endblock %}</h2>
+            </div>
+            <div class="col-sm-6">
+              {% macro nav_link(active, id, url, text, enabled) %}
+              <li role="presentation"
+                {% if active == id %}class="active"{% endif %}
+                {% if not enabled %}class="disabled"{% endif %}
+                >
+                <a href="{{ url }}">{{ text }}</a>
+              </li>
+              {% endmacro %}
+              {% macro nav_for(active) %}
+              <div id="nav" class="well well-sm hidden-xs">
+                <ul class="nav nav-pills">
+                  {{ nav_link(active, 'message', url_for('message_input'), 'Message', True) }}
+                  {{ nav_link(active, 'contacts', url_for('contacts_input'), 'Contacts', nav_data.show_contacts) }}
+                  {{ nav_link(active, 'instructions', url_for('view_instructions'), 'Instructions', nav_data.show_instructions) }}
+                </ul>
+              </div>
+              {% endmacro %}
               {% block nav %}{% endblock %}
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </header>
 
     <div class="container">
       <div class="row">
