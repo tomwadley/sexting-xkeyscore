@@ -10,3 +10,23 @@ html { overflow-y: scroll; }
 li.disabled a { pointer-events: none; }
 
 #message-form { margin-top: 20px; margin-bottom: 20px; }
+
+@media all {
+  .page-break { display: none; }
+}
+
+@media print {
+  .page-break { display: block; page-break-before: always; }
+  /*#instructions .instruction { font-size: 30px; line-height: 40px; }*/
+}
+
+#instructions { margin: 0 0 10px 10px; padding: 0; font-family: sans-serif; }
+#instructions h1 { margin-bottom: 40px; }
+
+#instructions ul { display: table; }
+#instructions li { display: table-row; page-break-inside: avoid; }
+#instructions .index { font-style: italic; }
+#instructions .text { display: table-cell; width: 80%; padding-bottom: 45px; }
+#instructions .character, #instructions .becomes { display: table-cell; width: 10%; text-align: right; font-style: italic; padding-right: 10px; }
+
+#instructions span.medium, span.clock, span.data { font-weight: bold; }

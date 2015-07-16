@@ -1,1 +1,36 @@
-../../seance/templates/instructions.html
+{% extends "__master.html" %}
+{% block title %}
+Your instructions
+{% endblock %}
+{% block nav %}
+{{ nav_for('instructions') }}
+{% endblock %}
+{% block content %}
+
+<div id="instructions">
+
+  {% for (contact, instructions) in contacts_instructions %}
+  <div>
+
+    <h1>Instructions for {{ contact.name() }}</h1>
+
+    <ul>
+    {% for i in instructions %}
+      <li class="instruction">
+        <div class="text">
+          <span class="index">{{ loop.index }})</span>
+          {% include "__instruction.html" %}
+        </div>
+        <div class="becomes">&#x21d2;</div>
+        <div class="character">{{ i.character() }}</div>
+      </li>
+    {% endfor %}
+    </ul>
+
+    <div class="page-break"></div>
+  </div>
+  {% endfor %}
+
+</div>
+
+{% endblock %}
