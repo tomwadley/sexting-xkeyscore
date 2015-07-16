@@ -87,7 +87,12 @@ def view_instructions():
     if not __all_data_provided(message, contacts):
         return redirect(url_for('message_input'))
 
-    contacts_instructions = __transform(message, contacts, start_hour)
+    try:
+        contacts_instructions = __transform(message, contacts, start_hour)
+    except Exception as e:
+        flash(str(e), 'danger')
+        return redirect(url_for('contacts_input'))
+
     return render_template('instructions.html', contacts_instructions=contacts_instructions, nav_data=__nav_data())
 
 def __transform(message, contacts, start_hour):

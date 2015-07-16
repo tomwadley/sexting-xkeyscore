@@ -21,7 +21,7 @@ class Sexting():
                 self.clock = self.clock.next_block()
 
                 if (self.clock.day() > 10):
-                    raise Exception("There doesn't seem to be anyone who can process {0}".format(character))
+                    raise Exception("You need more contacts; there doesn't seem to be anyone who can process the character '{0}'".format(character))
 
                 transformersWithContacts = list(self.__possible_transformers_and_contacts(character))
 
