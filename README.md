@@ -2,7 +2,7 @@
 
 Communicate with government surveillance programs via your metadata.
 
-This is a component of an art project I collaborated on with [Rosa Nussbaum](http://rosanussbaum.com/sexting-xkeyscore.html). 
+This is a component of an art collaboration with [Rosa Nussbaum](https://rosanussbaum.com/work/sexting-xkeyscore/). 
 
 Your message is encoded as a sequence of instructions (send an email, make a purchase etc.) which, when followed, produce metadata. It has been shown that this metadata is stored and analysed by the security agencies.
 
